@@ -212,5 +212,3 @@
 
 (start 300 300)
 (draw-a-circle (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 (move-circle 5 test-circle)))))))))))))))))))))
-
-;; Testing 1 2 3 You're the man! Really!

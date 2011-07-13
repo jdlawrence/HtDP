@@ -1,0 +1,48 @@
+chapter 6
+
+Exercises 6.3.1
+Constructors then selectors: 
+1. (make-movie 'Batman 'Nolan), (movie-name movie) = 'Batman
+2. (make-boyfriend 'Jamil 'black 'brown '6073518377), (boyfriend-hair bf) = 'black
+3. (make-cheerleader 'Becky '1), (cheerleader-number girl) = '1
+4. (make-CD 'Outkast 'Stankonia 12.95) (CD-artist cd) = 'Outkast
+5. (make-sweater 'cashmere 'L 'Nike) (sweater-material cheap) = 'cashmere
+
+6.3.2.
+1) 'ThePhantonMenace
+2) 'Lucas
+
+1) x
+2) y
+
+6.4.1
+1) title and producer are both symbols
+2) name, hair, and eyes are symbols, phone is a number
+3) name is symbol, number is a number
+4) artist and title are symbols, price is number
+5) material and size are symbols (I guess size could be a number) and produce is a symbol also
+
+6.4.2
+;; time: 3 parameters are hours, minutes and seconds
+;; represents time after midnight
+;; all 3 fields are meant to accept numbers
+(define-struct time (hours minutes seconds))
+
+6.4.3
+;; A representation of a 3 letter word
+;; (make-3-letter-word first second third)
+;; the letters are all meant to be one character symbols
+(define-struct 3-letter-word (first second third))
+
+6.5.1
+;;process-movie: movie symbol -> ???
+(define (process-movie a-movie a-producer)
+  ...(movie-title a-movie)...
+  ...(movie-producer a-movie)...)
+
+;;process-boyfriend: boyfriend symbol -> ???
+(define (process-boyfriend a-boyfriend phone)
+  ...(boyfriend-name a-boyfriend)...
+  ...(boyfriend-hair a boyfriend)...
+  ...(boyfriend-eyes a boyfriend)...
+  ...(boyfriend-phone a boyfriend)...)

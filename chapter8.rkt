@@ -41,4 +41,33 @@
  (f (f 1 (* 2 3)) 19)
  478)
 
-(/ 1 0)
+;; Ex 8.7.1
+;1) legal
+;2) illegal
+;3) legal
+;4) illegal
+;5) legal
+
+;; Ex 8.7.2
+;1) value
+;2) value
+;3) value
+
+;; Ex 8.7.3
+(define-struct ball (x y speed-x speed-y))
+;1)
+(check-expect
+ (number? (make-ball 1 2 3 4))
+ false)
+
+;2)
+(check-expect 
+ (ball-speed-y (make-ball (+ 1 2) (+ 3 3) 2 3))
+ 3)
+
+;3)
+(check-expect 
+ (ball-y (make-ball (+ 1 2) (+ 3 3) 2 3))
+ 6)
+
+(ball-speed-y 5)

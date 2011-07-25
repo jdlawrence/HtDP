@@ -206,4 +206,40 @@
  (check-for-guess-list (cons 3 (cons 7 empty)) 63)
  'TooLarge)
 
-(guess-with-gui-list 5 check-for-guess-list)
+;;(guess-with-gui-list 2 check-for-guess-list)
+
+;; Ex 9.5.6
+;; delta: a-list-of-numbers a-list-of-number -> number
+;; Takes in two inventory lists, substracts the value of the first from
+;; the second, and outputs the difference
+(define (delta first second)
+  (- (sum second) (sum first)))
+
+(check-expect
+ (delta (cons 5 (cons 7 empty)) (cons 2 (cons 15 empty)))
+ 5)
+
+;; Ex 9.5.7
+;; average-price: a-list-of-numbers -> number
+;; Takes in a-list-of-numbers and divides the sum by the number
+;; of items in the list
+(define (average-price a-list-of-numbers)
+  (/ (sum a-list-of-numbers) (how-many-numbers a-list-of-numbers)))
+
+(check-expect
+ (average-price (cons 5 (cons 15 empty)))
+ 10)
+
+;; Ex 9.5.8
+;; draw-circles: posn a-list-of-numbers -> true
+;; Takes in a posn p and a list of numbers representing the radii of circles
+;; draws a circle in red for each of the radii in the list
+(define (draw-circles p a-list-of-numbers)
+  (cond
+    [(empty? a-list-of-numbers) true]
+    [else (and 
+           (draw-circle p (first a-list-of-numbers) 'red)
+           (draw-circles p (rest a-list-of-numbers)))]))
+
+(start 300 300)
+(draw-circles (make-posn 150 150) (cons 50 (cons 100 (cons 150 (cons 175 empty)))))

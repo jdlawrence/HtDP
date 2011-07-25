@@ -42,9 +42,77 @@
     [else (cons (convertFC_indiv (first alon)) (convertFC (rest alon)))]))
 
 (check-within
-(convertFC_indiv 100)
-37.7 .1)
+ (convertFC_indiv 100)
+ 37.7 .1)
 
 (check-within 
  (convertFC (cons -40 (cons 100 empty)))
  (cons -40 (cons 37.7 empty)) .1)
+
+;; Ex 10.1.4 Skipped, too repititive
+
+;; Ex 10.1.5
+;; eliminate-exp: number list-of-numbers -> list-of-numbers
+;; Consumates a threshold (ua) and a list of toy prices (lotp).
+;; Outputs all numbers which are equal to or below the threshold
+(define (eliminate-exp ua lotp)
+  (cond
+    [(empty? lotp) empty]
+    [else 
+     (cond
+       [(<= (first lotp) ua) (cons (first lotp) (eliminate-exp ua (rest lotp)))]
+       [else (eliminate-exp ua (rest lotp))])]))
+
+(check-expect
+ (eliminate-exp 6 (cons 6 (cons 7 empty)))
+ (cons 6 empty))
+
+;; Ex 10.1.6 (Skipped straight to substitute)
+;; substitute: symbol symbol list-of-symbols -> list-of-sumbolsnumbers
+;; Takes a list of numbers and replaces "old" symbol with "new" symbol
+;; in a new list of symbols
+(define (substitute new old los)
+  (cond 
+    [(empty? los) empty]
+    [else
+     (cond
+       [(symbol=? (first los) old) (cons new (substitute new old (rest los)))]
+       [else (cons (first los) (substitute new old (rest los)))])]))
+
+(check-expect
+ (substitute 'a 'b (cons 'c (cons 'd empty)))
+ (cons 'c (cons 'd empty)))
+
+(check-expect
+ (substitute 'yes! 'c (cons 'c (cons 'd empty)))
+ (cons 'yes! (cons 'd empty)))
+
+;; Ex 10.1.7
+;; quadratic-roots: number number number -> 'symbol or list-of-numbers
+;; Given three numbers a,b,c
+;; 1)if a = 0, its output is 'degenerate.
+;; 2)if b2 < 4 · a · c, the quadratic equation has no solution; quadratic-roots produces 'none in this case.
+;; 3) if b2 = 4 · a · c, the equation has one solution: -b/(2a)
+;; if b2 > 4 · a · c, the equation has two solutions: (-b+sqrt(b^2-4ac))/(2a) and (-b-sqrt(b^2-4ac))/(2a)
+(define (quadratic-roots a b c)
+  (cond 
+    [(= a 0) 'degenerate]
+    [(< (* b b) (* 4 a c)) 'none]
+    [(= (* b b) (* 4 a c)) (/ (* b -1) (* 2 a))]
+    [else (cons (/ (+ (* b -1) (sqrt (- (* b b) (* 4 a c)))) (* 2 a)) (cons (/ (- (* b -1) (sqrt (- (* b b) (* 4 a c)))) (* 2 a)) empty))]))
+
+(check-expect
+ (quadratic-roots 0 5 2)
+ 'degenerate)
+
+(check-expect
+ (quadratic-roots 10 5 2)
+ 'none)
+
+(check-expect
+ (quadratic-roots 3 6 3)
+ -1)
+
+(check-within
+ (quadratic-roots 3 9 3)
+ (cons -.38 (cons -2.62 empty)) .01)

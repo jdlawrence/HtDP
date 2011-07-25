@@ -49,7 +49,7 @@
     [(= (* b b) (* 4 a c)) 'one]
     [(< (* b b) (* 4 a c)) 'zero]))
 
-(what-kind 2 4 2)
+(what-kind 3 9 3)
 
 ;; check-color: symbol symbol symbol symbol -> symbol
 ;; Takes in two target colors and two guess colors and outputs

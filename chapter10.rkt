@@ -166,4 +166,4 @@
  (contains? 'cat (cons (make-ir 'cat 33) (cons (make-ir 'dog 12) (cons (make-ir 'cat 41) empty))) )
  true)
 
-; (circle 10 "solid" "red)
+(circle 10 "solid" "red")

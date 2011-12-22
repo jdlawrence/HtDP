@@ -25,12 +25,12 @@
 ;; makes a list of f(n) for natural numbers n
 (define (tabulate-f n)
   (cond
-    [(zero? n) empty]
+    [(zero? n) (cons (make-posn 0 -1) empty)]
     [else (cons (make-posn n (f n) ) (tabulate-f (sub1 n)))]))
 
 (check-expect 
- (tabulate-f 2)
- (cons (make-posn 2 -1) (cons (make-posn 1 -4) empty)))
+ (tabulate-f 3)
+ (cons (make-posn 3 8) (cons (make-posn 2 -1) (cons (make-posn 1 -4) (cons (make-posn 0 -1) empty)))))
 
 ;; Ex 11.2.3
 ;; apply-n: list of-shapes number -> true
@@ -69,3 +69,16 @@
 (check-expect
  (make-deep 'smooth 3)
  (cons (cons (cons 'smooth empty) empty) empty))
+
+;; Ex 11.3.1
+;; ;; random-n-m : integer integer  ->  integer
+;; Takes in two integers m & n and generates a random number between the two
+;; Assume: n < m
+(define (random-n-m n m)
+  (+ (random (- m n)) n))
+
+(check-within
+ (random 8)
+ 2 3)
+ 
+(random-n-m 5 9)

@@ -77,4 +77,4 @@
 (define (random-n-m n m)
   (+ (random (- m n)) n))
  
-(random-n-m 59 99)
+(random-n-m 59 84)

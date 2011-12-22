@@ -76,9 +76,5 @@
 ;; Assume: n < m
 (define (random-n-m n m)
   (+ (random (- m n)) n))
-
-(check-within
- (random 8)
- 2 3)
  
-(random-n-m 5 9)
+(random-n-m 59 99)

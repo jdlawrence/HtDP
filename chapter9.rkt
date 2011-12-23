@@ -241,5 +241,22 @@
            (draw-circle p (first a-list-of-numbers) 'red)
            (draw-circles p (rest a-list-of-numbers)))]))
 
-(start 300 300)
-(draw-circles (make-posn 150 150) (cons 50 (cons 100 (cons 150 (cons 175 empty)))))
+;; *****Functions from Chapter 11, uses draw-circles
+;; Ex 11.3.1
+;; ;; random-n-m : integer integer  ->  integer
+;; Takes in two integers m & n and generates a random number between the two
+;; Assume: n < m
+(define (random-n-m n m)
+  (+ (random (- m n)) n))
+ 
+;; Ex 11.3.2
+;; tie-dyed:  number -> list
+;; Takes in a natural number n a produces a list of n natural numbers
+;; See draw-circles code in 9.5.8 for application
+(define (tie-dyed n)
+  (cond
+    [(zero? n) empty]
+    [else(cons (random-n-m 20 120) (tie-dyed (- n 1)))]))
+
+(start 500 500)
+(draw-circles (make-posn 250 250) (tie-dyed 7))

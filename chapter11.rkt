@@ -76,7 +76,7 @@
 ;; Assume: n < m
 (define (random-n-m n m)
   (+ (random (- m n)) n))
- 
+
 ;; Ex 11.3.2
 ;; tie-dyed:  N -> list-of-N
 ;; Takes in a natural number n a produces a list of n natural numbers
@@ -142,7 +142,7 @@
 
 (define canvasWidth 1500)
 (define canvasHeight 1000)
-(define numColumns 4)
+(define numColumns 16)
 (define numRows 4)
 (define columnWidth (/ canvasWidth numColumns))
 (define rowHeight (/ canvasHeight numRows))
@@ -170,9 +170,9 @@
   (cond
     [(empty? columns) true]
     [else(and 
-             (draw-solid-line (make-posn (first columns) 0) 
-                              (make-posn (first columns) canvasHeight))
-             (drawColumns (rest columns)))]))
+          (draw-solid-line (make-posn (first columns) 0) 
+                           (make-posn (first columns) canvasHeight))
+          (drawColumns (rest columns)))]))
 
 ;; drawRows: list -> true
 ;; Consumes a list containing the y-values for each row boundary
@@ -181,16 +181,17 @@
   (cond
     [(empty? rows) true]
     [else(and
-             (draw-solid-line (make-posn 0 (first rows))
-                              (make-posn canvasWidth (first rows)))
-             (drawRows (rest rows)))]))
+          (draw-solid-line (make-posn 0 (first rows))
+                           (make-posn canvasWidth (first rows)))
+          (drawRows (rest rows)))]))
 
 ;(columnValues numColumns)
 ;(rowValues numRows)
 
-(start canvasWidth canvasHeight)
-(drawColumns (columnValues numColumns))
-(drawRows (rowValues numRows))
+;; *****Draw Commands for Riot Balloons*** 
+;(start canvasWidth canvasHeight)
+;(drawColumns (columnValues numColumns))
+;(drawRows (rowValues numRows))
 
 ;; pointsList: integer -> list-of-posn
 ;; Consumes an number "n" for the number of points in the list
@@ -206,8 +207,120 @@
   (cond 
     [(empty? list-of-points) true]
     [else(and
-             (draw-solid-disk (first list-of-points) 5 'red)
-             (draw-points (rest list-of-points)))]))
+          (draw-solid-disk (first list-of-points) 5 'red)
+          (draw-points (rest list-of-points)))]))
 
-(draw-points (pointsList 12000))
+;; *****Draw Commands for Riot Balloons*** 
+;;(draw-points (pointsList 1200))
 
+;; Ex 11.4.1
+
+;; ! : N  ->  N
+;; to compute n  ·  (n - 1)  ·  ...  ·  2  ·  1
+;; (meaning n factorial)
+(define (! n)
+  (cond
+    [(zero? n) 1]
+    [else (* n (! (sub1 n)) )]))
+
+(check-expect
+ (! 2)
+ 2)
+
+(check-expect
+ (! 10)
+ 3628800)
+
+
+;; Ex 11.4.2
+
+;; product N N -> N
+;; Consumes two natural numbers, n & m, where m > n
+;; Outputs the product of the numbers between n(exclusive) and m (inclusive)
+(define (product n m)
+  (/ (! m) (! n)))
+
+(check-expect
+ (product 3 5)
+ 20)
+
+;; Ex 11.4.3
+
+;; product-from-minus-11: N [>= -11]  ->  N
+;; to compute n  ·  (n - 1)  ·  ...  ·  -10  ·   -11
+;; Computer the product of a number from n down to -11 (exclusive)
+(define (product-from-minus-11 n-above-minus-11)
+  (cond
+    [(= n-above-minus-11 -11) 1]
+    [else (* n-above-minus-11 (product-from-minus-11 (sub1 n-above-minus-11)))]))
+
+(check-expect
+ (product-from-minus-11 -9)
+ 90)
+
+;; Ex 11.4.4
+
+;; tabulate-f2: N [>= 20]  ->  list
+;; makes a list of f(n) from exercises 11.2.2 paired with natural numbers n
+;; (makes a list of posns)
+(define (tabulate-f20 n-above-20)
+  (cond
+    [(= n-above-20 20) empty]
+    [else (cons (make-posn n-above-20 (f n-above-20) ) (tabulate-f20 (sub1 n-above-20)))]))
+
+(check-expect
+ (tabulate-f20 23)
+ (cons (make-posn 23 1448) (cons (make-posn 22 1319) (cons (make-posn 21 1196) empty))))
+
+;; Ex 11.4.5
+
+;; tabulate-f-lim: N[limit] N[>= limit] -> list-of-posns
+;; Consumes two natural numbers and output a table containing a list of positions for the function described in 11.2.2
+;; with n > limit
+(define (tabulate-f-lim limit n)
+  (cond
+    [(= n limit) empty]
+    [else (cons (make-posn n (f n)) (tabulate-f-lim limit (sub1 n)))]))
+
+(check-expect
+ (tabulate-f-lim 20 21)
+ (cons (make-posn 21 1196) empty))
+
+;; Ex 11.4.6
+
+;; tabulate-f-up-to-20 : N [<= 20]  ->  N
+;; Consumes a natural number and makes a list of the n paired with f(n) (from 11.2.2)
+;; List goes from n to 20
+(define (tabulate-f-up-to-20 n-below-20) 
+  (cond
+    [(= n-below-20 20) empty]
+    [else (cons (make-posn n-below-20 (f n-below-20)) (tabulate-f-up-to-20 (add1 n-below-20)))]))
+
+(check-expect
+ (tabulate-f-up-to-20 17)
+ (cons (make-posn 17 764) (cons (make-posn 18 863) (cons (make-posn 19 968) empty))))
+
+;; Ex 11.4.7
+;; is-not-divisible-by<=i: N[>=1] N -> boolean
+;; Consumes a natural number i that >=1 a natural number m where i < m
+;; Outputs true is m is not divisible by any number between 1(exclusive) and i(inclusive)
+;; Produce false otherwise
+(define (is-not-divisible-by<=i i m)
+  (cond
+    [(= 1 i) true]
+    [else(cond
+           [(= (modulo m i) 0) false]
+           [else(is-not-divisible-by<=i (sub1 i) m)])]))
+
+(check-expect
+ (is-not-divisible-by<=i 9 19)
+ true)
+
+;; prime?: N -> boolean
+;; Consumes a natural number and outputs whether or not it is prime
+(define (prime? n)
+ (is-not-divisible-by<=i (sub1 n) n))
+     
+(check-expect 
+ (prime? 8)
+ true)

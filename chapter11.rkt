@@ -319,8 +319,61 @@
 ;; prime?: N -> boolean
 ;; Consumes a natural number and outputs whether or not it is prime
 (define (prime? n)
- (is-not-divisible-by<=i (sub1 n) n))
-     
+  (is-not-divisible-by<=i (sub1 n) n))
+
 (check-expect 
- (prime? 8)
+ (prime? 7)
  true)
+
+;; Ex 11.5.1
+;; add: N N -> N
+;; consumes two natural numbers n & x
+;; Outputs the sum of n + x without using the "+" symbol
+(define (add n x)
+  (cond
+    [(zero? n) x]
+    [else(add1 (add (sub1 n) x))]))
+
+(check-expect
+ (add 5 8)
+ 13)
+
+;; Ex 11.5.1
+;; multiply-by-pi: N -> floating#
+;; consumes a natural number n
+;; Outputs the number n multiplied by 3.14
+(define (multiply-by-pi n)
+  (cond
+    [(zero? n) 0]
+    [else (+ 3.14 (multiply-by-pi (sub1 n)))]))
+
+;; Ex 11.5.2
+;; multiply: N N -> N
+;; consumes two natural number n & x
+;; Outputs the product n * x
+(define (multiply n x)
+  (cond
+    [(zero? n) 0]
+    [else (add x (multiply (sub1 n) x))]))
+
+
+(check-expect
+ (multiply-by-pi 3 )
+ 9.42)
+
+(check-expect
+ (multiply 5 6)
+ 30)
+
+;; Ex 11.5.3
+;; exponent: N floating# -> floating#
+;; consumes a natural number n and a base x
+;; Outputs x to the n power
+(define (exponent n x)
+  (cond
+    [(zero? n) 1]
+    [else (multiply (exponent (sub1 n) x) x)]))
+
+(check-expect
+ (exponent 3 5)
+ 125)

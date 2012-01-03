@@ -377,3 +377,14 @@
 (check-expect
  (exponent 3 5)
  125)
+
+;; Ex 11.5.4
+;; addDL: deep-list deep-list -> deep-list
+;; Consumes two deep lists 
+;; Outputs a deep-list representing the sum of two deep-lists
+(define (addDL dl1 dl2)
+  (make-deep 'smooth (+ (depth dl1) (depth dl2))))
+
+(check-expect
+ (depth (addDL (make-deep 'smooth 3) (make-deep 'smoth 5)))
+ 8)
